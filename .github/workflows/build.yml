@@ -65,7 +65,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
                
       - name: Build and pack
-        run: dotnet build ./BaseRepository/BaseRepository.csproj --configuration Release --output ./nupkgs
+        run: dotnet build ./MathSolver/MathSolver.csproj --configuration Release --output ./nupkgs
 
       - name: Publish to GitHub packages
         run: |
