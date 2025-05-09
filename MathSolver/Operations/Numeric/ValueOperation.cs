@@ -1,12 +1,19 @@
+using BaseUtils.FlowControl.ErrorType;
 using BaseUtils.FlowControl.ResultType;
 using MathSolver.NumericTypes;
 
 namespace MathSolver.Operations.NumericOperations;
-public class ValueOperation(Result<INumericType> ResultValue) : IOperation
+public sealed record ValueOperation(Result<INumericType> ResultValue) : IOperation
 {
     public const string NumericValueCannotBeNull = "A numeric value cannot be null.";
 
+    public Result<INumericType> Evaluate() 
+    {
+        if (ResultValue is null)
+            return ErrorResponse.NotFoundError(NumericValueCannotBeNull); 
 
-    public Result<INumericType> Evaluate() => ResultValue;
+        return ResultValue;  
+    }
+    
     public IOperation Compile() => this;
 }

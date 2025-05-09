@@ -1,9 +1,7 @@
-using BaseUtils.FlowControl.ResultType;
-using MathSolver.NumericTypes;
+using MathSolver.Expressions;
 
 namespace MathSolver.Operations;
-public interface IOperation
+public interface IOperation : IExpression
 {
-    Result<INumericType> Evaluate();
     IOperation Compile();
 }
