@@ -10,8 +10,4 @@
     <PackageReference Include="Rodovia.BaseUtils" Version="9.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Expressions\" />
-  </ItemGroup>
-
 </Project>

@@ -67,4 +67,30 @@ public class DecimalTypeTests
 
         Assert.Equal(resultValue1, resultValue2);
     }
+
+    [Theory(DisplayName = "DTT 4.01 - sum decimal with imaginary number.")]
+    [InlineData(0.1, 0.25, 3, 0.35, 3)]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(22, -3, -4, 19, -4)]
+    [InlineData(24, 12, 36, 36, 36)]
+    [InlineData(-32, 4, 0, -28, 0)]
+    public void DecimalTypeTest4(decimal leftNumber, 
+        decimal rightRealNumber, decimal rightImaginaryNumber, 
+        decimal resultReal, decimal resultImaginary)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new ImaginaryNumber(rightRealNumber, rightImaginaryNumber);
+
+        // When
+        var result = leftDecimal.Add(rightDecimal);
+
+        // Then
+        Assert.True(result.IsSuccess);
+        
+        var resultValue = (ImaginaryNumber)result.GetValue();
+
+        Assert.Equal(resultReal, resultValue.RealPart);
+        Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
+    }
 }

@@ -9,15 +9,11 @@ public readonly record struct ImaginaryNumber(decimal RealPart, decimal Imaginar
 
     public Result<INumericType> AddToDecimalNumber(DecimalNumber number)
     {
-        var result = ArithmeticNumericExtensions.Add(number, this);
-
-        return result.IsSuccess ? result.GetValue() : result.Errors;
+        return ArithmeticNumericExtensions.Add(number, this).GetValue();
     }
 
     public Result<INumericType> AddToImaginaryNumber(ImaginaryNumber number)
     {
-        var result = ArithmeticNumericExtensions.Add(this, number);
-
-        return result.IsSuccess ? result.GetValue() : result.Errors;
+        return ArithmeticNumericExtensions.Add(this, number).GetValue();
     }
 }

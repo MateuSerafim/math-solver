@@ -4,6 +4,7 @@ using MathSolver.NumericTypes;
 namespace MathSolver.Operations.Arithmetic;
 public static class ArithmeticNumericExtensions
 {
+    public const string OperationCannotBeNull = "An Expression cannot be a null object.";
     public static Result<DecimalNumber> Add(DecimalNumber leftNumber, DecimalNumber rightNumber)
     {
         return new DecimalNumber(leftNumber.Value + rightNumber.Value);
