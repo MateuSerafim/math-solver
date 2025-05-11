@@ -66,7 +66,7 @@ public class DecimalTypeTests
         Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
     }
 
-    [Theory(DisplayName = "DTT 3.01 - Check comutative property.")]
+    [Theory(DisplayName = "DTT 3.01 - Check sum comutative property.")]
     [InlineData(0.1, 0.2, 0.3)]
     [InlineData(0, 0, 0)]
     [InlineData(-11, 3.5, -7.5)]
@@ -140,5 +140,114 @@ public class DecimalTypeTests
 
         Assert.Equal(resultReal, resultValue.RealPart);
         Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
+    }
+
+    [Theory(DisplayName = "DTT 5.01 - multiply two decimal numbers.")]
+    [InlineData(0.1, 0.2, 0.02)]
+    [InlineData(0, -0, 0)]
+    [InlineData(1, 2, 2)]
+    [InlineData(24, 12.6, 302.4)]
+    [InlineData(-3.92, -4, 15.68)]
+    [InlineData(-2, 2, -4)]
+    public void DecimalTypeTest7(decimal leftNumber, decimal rightNumber, decimal result)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new DecimalNumber(rightNumber);
+
+        // When
+        var resultDecimal = leftDecimal.Multiply(rightDecimal);
+
+        // Then
+        Assert.True(resultDecimal.IsSuccess);
+
+        var resultValue = (DecimalNumber)resultDecimal.GetValue();
+        Assert.Equal(result, resultValue.Value);
+    }
+
+    [Theory(DisplayName = "DTT 5.02 - multiply decimal with imaginary number.")]
+    [InlineData(0.1, 0.25, 3, 0.025, 0.3)]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(22, -3, -4, -66, -88)]
+    [InlineData(24, 2, 0.5, 48, 12)]
+    [InlineData(-2, 4, 0, -8, 0)]
+    public void DecimalTypeTest8(decimal leftNumber, 
+        decimal rightRealNumber, decimal rightImaginaryNumber, 
+        decimal resultReal, decimal resultImaginary)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new ImaginaryNumber(rightRealNumber, rightImaginaryNumber);
+
+        // When
+        var result = leftDecimal.Multiply(rightDecimal);
+
+        // Then
+        Assert.True(result.IsSuccess);
+        
+        var resultValue = (ImaginaryNumber)result.GetValue();
+
+        Assert.Equal(resultReal, resultValue.RealPart);
+        Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
+    }
+
+    [Theory(DisplayName = "DTT 6.01 - Check multiply comutative property with decimal numbers.")]
+    [InlineData(0.1, 0.2, 0.02)]
+    [InlineData(0, -0, 0)]
+    [InlineData(1, 2, 2)]
+    [InlineData(24, 12.6, 302.4)]
+    [InlineData(-3.92, -4, 15.68)]
+    [InlineData(-2, 2, -4)]
+    public void DecimalTypeTest9(decimal leftNumber, decimal rightNumber, decimal result)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new DecimalNumber(rightNumber);
+
+        // When
+        var resultDecimal1 = leftDecimal.Multiply(rightDecimal);
+        var resultDecimal2 = rightDecimal.Multiply(leftDecimal);
+
+        // Then
+        Assert.True(resultDecimal1.IsSuccess);
+        var resultValue1 = (DecimalNumber)resultDecimal1.GetValue();
+        Assert.Equal(result, resultValue1.Value);
+        
+        Assert.True(resultDecimal2.IsSuccess);
+        var resultValue2 = (DecimalNumber)resultDecimal2.GetValue();
+        Assert.Equal(result, resultValue2.Value);
+
+        Assert.Equal(resultValue1, resultValue2);
+    }
+
+    [Theory(DisplayName = "DTT 6.02 - Check multiply comutative property with Imaginary numbers.")]
+    [InlineData(0.1, 0.25, 3, 0.025, 0.3)]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(22, -3, -4, -66, -88)]
+    [InlineData(24, 2, 0.5, 48, 12)]
+    [InlineData(-2, 4, 0, -8, 0)]
+    public void DecimalTypeTest10(decimal leftNumber, 
+        decimal rightRealNumber, decimal rightImaginaryNumber, 
+        decimal resultReal, decimal resultImaginary)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new ImaginaryNumber(rightRealNumber, rightImaginaryNumber);
+
+        // When
+        var resultDecimal1 = leftDecimal.Multiply(rightDecimal);
+        var resultDecimal2 = rightDecimal.Multiply(leftDecimal);
+
+        // Then
+        Assert.True(resultDecimal1.IsSuccess);
+        var resultValue1 = (ImaginaryNumber)resultDecimal1.GetValue();
+        Assert.Equal(resultReal, resultValue1.RealPart);
+        Assert.Equal(resultImaginary, resultValue1.ImaginaryPart);
+        
+        Assert.True(resultDecimal2.IsSuccess);
+        var resultValue2 = (ImaginaryNumber)resultDecimal2.GetValue();
+         Assert.Equal(resultImaginary, resultValue2.ImaginaryPart);
+
+        Assert.Equal(resultValue1, resultValue2);
     }
 }

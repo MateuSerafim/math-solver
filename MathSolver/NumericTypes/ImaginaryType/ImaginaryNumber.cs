@@ -30,4 +30,18 @@ public readonly record struct ImaginaryNumber(decimal RealPart, decimal Imaginar
         return new ImaginaryNumber(number.RealPart - RealPart, 
                                    number.ImaginaryPart - ImaginaryPart);
     }
+
+    public Result<INumericType> Multiply(INumericType numberToSubstract) 
+    => numberToSubstract.MultiplyToImaginaryNumber(this);
+
+    public Result<INumericType> MultiplyToDecimalNumber(DecimalNumber number)
+    {
+        return number.MultiplyToImaginaryNumber(this);
+    }
+
+    public Result<INumericType> MultiplyToImaginaryNumber(ImaginaryNumber number)
+    {
+        return new ImaginaryNumber(number.RealPart * RealPart + (number.ImaginaryPart * ImaginaryPart), 
+                                   number.ImaginaryPart * RealPart + number.RealPart * ImaginaryPart);
+    }
 }

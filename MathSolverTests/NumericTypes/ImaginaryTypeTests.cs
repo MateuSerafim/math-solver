@@ -156,4 +156,56 @@ public class ImaginaryTypeTests
         Assert.Equal(resultReal, resultValue.RealPart);
         Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
     }
+
+    [Theory(DisplayName = "ITT 5.01 - Multiply two imaginary numbers.")]
+    [InlineData(0.1, 0.2, 0.3, -0.2, -0.01, 0.04)]
+    [InlineData(0, -0, 0, 0, 0, 0)]
+    [InlineData(10, 10, 10, -10, 0, 0)]
+    [InlineData(3, 2, 1, 4, 11, 14)]
+    [InlineData(0, 1, 1, 1, 1, 1)]
+    public void ImaginaryTypeTest7(
+        decimal leftRealPart, decimal leftImaginaryPart,
+        decimal rightRealPart, decimal rightImaginaryPart, 
+        decimal resultRealPart, decimal resultImaginaryPart)
+    {
+        // Given
+        var leftImaginary = new ImaginaryNumber(leftRealPart, leftImaginaryPart);
+        var rightImaginary = new ImaginaryNumber(rightRealPart, rightImaginaryPart);
+
+        // When
+        var resultImaginary = leftImaginary.Multiply(rightImaginary);
+
+        // Then
+        Assert.True(resultImaginary.IsSuccess);
+
+        var resultValue = (ImaginaryNumber)resultImaginary.GetValue();
+        Assert.Equal(resultRealPart, resultValue.RealPart);
+        Assert.Equal(resultImaginaryPart, resultValue.ImaginaryPart);
+    }
+
+    [Theory(DisplayName = "ITT 5.02 - Multiply imaginary with decimal number.")]
+    [InlineData(0.1, 0.25, 3, 0.025, 0.3)]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(22, -3, -4, -66, -88)]
+    [InlineData(1, 12, 3, 12, 3)]
+    [InlineData(0, 4.22, 0.1, 0, 0)]
+    public void ImaginaryTypeTest8(decimal rightNumber, 
+        decimal leftRealNumber, decimal leftImaginaryNumber, 
+        decimal resultReal, decimal resultImaginary)
+    {
+        // Given
+        var leftDecimal = new ImaginaryNumber(leftRealNumber, leftImaginaryNumber);
+        var rightDecimal = new DecimalNumber(rightNumber);
+
+        // When
+        var result = leftDecimal.Multiply(rightDecimal);
+
+        // Then
+        Assert.True(result.IsSuccess);
+        
+        var resultValue = (ImaginaryNumber)result.GetValue();
+
+        Assert.Equal(resultReal, resultValue.RealPart);
+        Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
+    }
 }

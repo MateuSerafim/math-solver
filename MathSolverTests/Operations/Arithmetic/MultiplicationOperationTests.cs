@@ -3,20 +3,21 @@ using MathSolver.Operations.Arithmetic;
 using MathSolver.Operations.NumericOperations;
 
 namespace MathSolverTests.Operations.Arithmetic;
-public class AdditionOperationTests
-{
-    [Theory(DisplayName = "SOT 1.01 - Create Addition Operation")]
-    [InlineData(0.1, 0.2, 0.3)]
+public class MultiplicationOperationTests
+{   
+    [Theory(DisplayName = "MOT 1.01 - Create Multiplication Operation")]
+    [InlineData(0.1, 0.2, 0.02)]
     [InlineData(0, -0, 0)]
-    [InlineData(-11, 2, -9)]
-    [InlineData(24, 12.1, 36.1)]
-    [InlineData(-3.92, 4, 0.08)]
-    public void AdditionOperationTest1(decimal leftValue, decimal rightValue, decimal resultValue)
+    [InlineData(-11, 2, -22)]
+    [InlineData(10, 12.1, 121)]
+    [InlineData(4, 0, 0)]
+    [InlineData(32.1, 1, 32.1)]
+    public void MultiplicationOperationTest1(decimal leftValue, decimal rightValue, decimal resultValue)
     {
         // Given
         var leftOperation = new ValueOperation(new DecimalNumber(leftValue));
         var rightOperation = new ValueOperation(new DecimalNumber(rightValue));
-        var operation = new AdditionOperation(leftOperation, rightOperation);
+        var operation = new MultiplicationOperation(leftOperation, rightOperation);
     
         // When
         var result = operation.Evaluate();
@@ -26,14 +27,14 @@ public class AdditionOperationTests
         Assert.Equal(resultValue, ((DecimalNumber)result.GetValue()).Value);
     }
 
-    [Fact(DisplayName = "SOT 2.01 - Create Value Operation with null value")]
+    [Fact(DisplayName = "MOT 2.01 - Create Value Operation with null value")]
     public void ValueOperationTest2()
     {
 
         var rightOperation = new ValueOperation(new DecimalNumber(2));
 
         #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        var operation = new AdditionOperation(null, rightOperation);
+        var operation = new MultiplicationOperation(null, rightOperation);
         #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         // When
@@ -54,7 +55,7 @@ public class AdditionOperationTests
 
         var rightOperation = new ValueOperation(new DecimalNumber(2));
 
-        var operation = new AdditionOperation(leftOperation, rightOperation);
+        var operation = new MultiplicationOperation(leftOperation, rightOperation);
 
         // When
         var result = operation.Evaluate();

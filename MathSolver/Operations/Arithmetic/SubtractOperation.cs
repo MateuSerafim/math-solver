@@ -5,9 +5,8 @@ using MathSolver.NumericTypes;
 using MathSolver.Operations.NumericOperations;
 
 namespace MathSolver.Operations.Arithmetic;
-
 public sealed record SubtractOperation(IExpression LeftExpression, 
-                                        IExpression RightExpression) : IOperation
+                                       IExpression RightExpression) : IOperation
 {
     public Result<INumericType> Evaluate() => Compile().Evaluate(); 
     public IOperation Compile()
@@ -16,7 +15,7 @@ public sealed record SubtractOperation(IExpression LeftExpression,
         {
             return new ValueOperation(
                 ErrorResponse.NotFoundError(
-                    ArithmeticNumericExtensions.OperationCannotBeNull));
+                    ArithmeticExtensions.OperationCannotBeNull));
         }
 
         var leftResult = LeftExpression.Evaluate();

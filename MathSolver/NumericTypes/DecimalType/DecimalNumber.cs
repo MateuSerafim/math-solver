@@ -28,4 +28,17 @@ public readonly record struct DecimalNumber(decimal Value) : INumericType
     {
         return new ImaginaryNumber(number.RealPart - Value, number.ImaginaryPart);
     }
+
+    public Result<INumericType> Multiply(INumericType numberToSubstract) 
+    => numberToSubstract.MultiplyToDecimalNumber(this);
+
+    public Result<INumericType> MultiplyToDecimalNumber(DecimalNumber number)
+    {
+        return new DecimalNumber(number.Value * Value);
+    }
+
+    public Result<INumericType> MultiplyToImaginaryNumber(ImaginaryNumber number)
+    {
+        return new ImaginaryNumber(number.RealPart * Value, number.ImaginaryPart * Value);
+    }
 }

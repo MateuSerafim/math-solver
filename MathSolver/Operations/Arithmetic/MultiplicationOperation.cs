@@ -5,8 +5,8 @@ using MathSolver.NumericTypes;
 using MathSolver.Operations.NumericOperations;
 
 namespace MathSolver.Operations.Arithmetic;
-public sealed record AdditionOperation(IExpression LeftExpression, 
-                                       IExpression RightExpression) : IOperation
+public class MultiplicationOperation(IExpression LeftExpression, 
+                                     IExpression RightExpression) : IOperation
 {
     public Result<INumericType> Evaluate() => Compile().Evaluate(); 
     public IOperation Compile()
@@ -25,7 +25,7 @@ public sealed record AdditionOperation(IExpression LeftExpression,
             return new ValueOperation(Result<INumericType>.Failure([.. leftResult.Errors, 
                                                                     .. rightResult.Errors]));
 
-        Result<INumericType> result = leftResult.GetValue().Add(rightResult.GetValue());
+        Result<INumericType> result = leftResult.GetValue().Multiply(rightResult.GetValue());
 
         return new ValueOperation(result);
     }

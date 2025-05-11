@@ -41,7 +41,7 @@ public class SubstractOperationTests
     
         // Then
         Assert.True(result.IsFailure);
-        Assert.Equal(ArithmeticNumericExtensions.OperationCannotBeNull, 
+        Assert.Equal(ArithmeticExtensions.OperationCannotBeNull, 
                      result.Errors[0].ErrorMessage());
     }
 
