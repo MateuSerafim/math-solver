@@ -40,13 +40,39 @@ public class DecimalTypeTests
         Assert.Equal(result, resultValue.Value);
     }
 
+    [Theory(DisplayName = "DTT 2.02 - sum decimal with imaginary number.")]
+    [InlineData(0.1, 0.25, 3, 0.35, 3)]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(22, -3, -4, 19, -4)]
+    [InlineData(24, 12, 36, 36, 36)]
+    [InlineData(-32, 4, 0, -28, 0)]
+    public void DecimalTypeTest3(decimal leftNumber, 
+        decimal rightRealNumber, decimal rightImaginaryNumber, 
+        decimal resultReal, decimal resultImaginary)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new ImaginaryNumber(rightRealNumber, rightImaginaryNumber);
+
+        // When
+        var result = leftDecimal.Add(rightDecimal);
+
+        // Then
+        Assert.True(result.IsSuccess);
+        
+        var resultValue = (ImaginaryNumber)result.GetValue();
+
+        Assert.Equal(resultReal, resultValue.RealPart);
+        Assert.Equal(resultImaginary, resultValue.ImaginaryPart);
+    }
+
     [Theory(DisplayName = "DTT 3.01 - Check comutative property.")]
     [InlineData(0.1, 0.2, 0.3)]
     [InlineData(0, 0, 0)]
     [InlineData(-11, 3.5, -7.5)]
     [InlineData(24, 12, 36)]
     [InlineData(-3.92, 4, 0.08)]
-    public void DecimalTypeTest3(decimal leftNumber, decimal rightNumber, decimal result)
+    public void DecimalTypeTest4(decimal leftNumber, decimal rightNumber, decimal result)
     {
         // Given
         var leftDecimal = new DecimalNumber(leftNumber);
@@ -68,13 +94,35 @@ public class DecimalTypeTests
         Assert.Equal(resultValue1, resultValue2);
     }
 
-    [Theory(DisplayName = "DTT 4.01 - sum decimal with imaginary number.")]
-    [InlineData(0.1, 0.25, 3, 0.35, 3)]
+    [Theory(DisplayName = "DTT 4.01 - Subtract two decimal numbers.")]
+    [InlineData(0.1, 0.2, -0.1)]
+    [InlineData(0, -0, 0)]
+    [InlineData(-21, 2, -23)]
+    [InlineData(24, 12.6, 11.4)]
+    [InlineData(-3.92, -4, 0.08)]
+    public void DecimalTypeTest5(decimal leftNumber, decimal rightNumber, decimal result)
+    {
+        // Given
+        var leftDecimal = new DecimalNumber(leftNumber);
+        var rightDecimal = new DecimalNumber(rightNumber);
+
+        // When
+        var resultDecimal = leftDecimal.Subtract(rightDecimal);
+
+        // Then
+        Assert.True(resultDecimal.IsSuccess);
+
+        var resultValue = (DecimalNumber)resultDecimal.GetValue();
+        Assert.Equal(result, resultValue.Value);
+    }
+
+    [Theory(DisplayName = "DTT 4.02 - Subtract decimal with imaginary number.")]
+    [InlineData(0.1, 0.25, 3, -0.15, -3)]
     [InlineData(0, 0, 0, 0, 0)]
-    [InlineData(22, -3, -4, 19, -4)]
-    [InlineData(24, 12, 36, 36, 36)]
-    [InlineData(-32, 4, 0, -28, 0)]
-    public void DecimalTypeTest4(decimal leftNumber, 
+    [InlineData(22, -3, -4, 25, 4)]
+    [InlineData(24, 12, 36, 12, -36)]
+    [InlineData(-32, 4, 0, -36, 0)]
+    public void DecimalTypeTest6(decimal leftNumber, 
         decimal rightRealNumber, decimal rightImaginaryNumber, 
         decimal resultReal, decimal resultImaginary)
     {
@@ -83,7 +131,7 @@ public class DecimalTypeTests
         var rightDecimal = new ImaginaryNumber(rightRealNumber, rightImaginaryNumber);
 
         // When
-        var result = leftDecimal.Add(rightDecimal);
+        var result = leftDecimal.Subtract(rightDecimal);
 
         // Then
         Assert.True(result.IsSuccess);
